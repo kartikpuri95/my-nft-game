@@ -28,6 +28,8 @@ contract MyNFTGame is ERC721 {
         uint256 maxHp;
         uint256 attackDamage;
     }
+    event CharacterNFTMinted(address sender, uint256 tokenId, uint256 characterIndex);
+    event AttackComplete(uint newBossHp, uint newPlayerHp);
     using Counters for Counters.Counter;
     Counters.Counter private _tokenIds;
     CharacterAttributes[] defaultCharacters;
@@ -104,6 +106,7 @@ contract MyNFTGame is ERC721 {
         );
         nftHolders[msg.sender] = newItemId;
         _tokenIds.increment();
+        emit CharacterNFTMinted(msg.sender, newItemId, _characterIndex);
     }
 
     function attackBoss() external {
@@ -140,6 +143,7 @@ contract MyNFTGame is ERC721 {
             player.hp = player.hp - bigBoss.attackDamage;
         }
         // Console for ease.
+        emit AttackComplete(bigBoss.hp, player.hp);
         console.log("Player attacked boss. New boss hp: %s", bigBoss.hp);
         console.log("Boss attacked player. New player hp: %s\n", player.hp);
     }
@@ -152,6 +156,9 @@ contract MyNFTGame is ERC721 {
             CharacterAttributes memory emptystruct;
             return emptystruct;
         }
+    }
+    function getBigBoss() public view returns(BigBoss memory){
+        return bigBoss;
     }
     function getAllDefaultCharacters() public view returns(CharacterAttributes[] memory){
           return defaultCharacters;

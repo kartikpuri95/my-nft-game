@@ -13,16 +13,13 @@ const main = async () => {
     50);
     await gameContract.deployed();
     console.log(`contract deployed to - ${gameContract.address}`)
-    let txn;
-    txn = await gameContract.mintCharacter(1)
-    await txn.wait();
-    // Get the value of the NFT's URI.
-    let returnedTokenUri = await gameContract.tokenURI(1);
-    console.log("Token URI:", returnedTokenUri);
-    txn = await gameContract.attackBoss();
-await txn.wait();
-txn = await gameContract.attackBoss();
-await txn.wait();
+       // Get the value of the NFT's URI.
+       let returnedTokenUri = await gameContract.tokenURI(1);
+       console.log("Token URI:", returnedTokenUri);
+       txn = await gameContract.attackBoss();
+   await txn.wait();
+   txn = await gameContract.attackBoss();
+   await txn.wait();
 }
 const runMain = async () => {
     try {
